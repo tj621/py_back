@@ -1,3 +1,4 @@
+# coding=utf-8
 from threading import Timer
 
 
@@ -26,8 +27,9 @@ class Scheduler(object):
 
 
             # test
+
 # def update_indoor():
-#     print 'indoor updated'
+# print 'indoor updated'
 #
 #
 # def update_outdoor():

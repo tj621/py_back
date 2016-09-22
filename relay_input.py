@@ -1,3 +1,5 @@
+# coding=utf-8
+
 '''
 2016/06/20
 @author: Zxh
@@ -8,13 +10,13 @@ from serial_output import query_all_state
 first_query_all = "01 01 00 00 00 08 3D CC"
 second_query_all = "02 01 00 00 00 08 3D FF"
 third_query_all = "03 01 00 00 00 08 3C 2E"
-query_all=[first_query_all,second_query_all,third_query_all]
+query_all = [first_query_all, second_query_all, third_query_all]
 # co = Control()
 
 def get_current_relay_state(Control):
-    current_state=get_all_state()
+    current_state = get_all_state()
     for message in current_state:
-        if message !='':
+        if message != '':
             print message
             relay_number = int(message[0:2])
             relay_state = message[6:8]
@@ -25,15 +27,17 @@ def get_current_relay_state(Control):
     print Control.build_json()
     return Control.build_json()
 
+
 def get_all_state():
-    current_state=[]
+    current_state = []
     for query in query_all:
-        recv=query_all_state(query)
+        recv = query_all_state(query)
         current_state.append(recv)
     return current_state
 
+
 # def delete_blank(str1):
-#     x = str1.split()
+# x = str1.split()
 #     return ''.join(x)
 
 def get_relay_state(relay_number, relay_state, Control):
@@ -137,6 +141,7 @@ def get_relay_state(relay_number, relay_state, Control):
     else:
         print 'relay_nymber error'
 
+
 def string_to_bin(str_in):
     a = '{0:b}'.format(int(str_in, 16))
     str2 = ''
@@ -145,17 +150,17 @@ def string_to_bin(str_in):
             str2 += '0'
     return str2 + str(a)
 
-# str2="EF"
-# print '{0:b}'.format(int(str2,16))
-# get_control_state(Query_all_return,co)
-# current_state=get_all_state()
-# for message in current_state:
-#     if message !='':
-#         print message
-#         relay_number = int(message[0:2])
-#         relay_state = message[6:8]
-#         relay_bin = string_to_bin(relay_state)
-#         print 'relay_number:',relay_number
-#         print 'relay_state:'+relay_bin
-#     else:
-#         print 'nothing return'
+    # str2="EF"
+    # print '{0:b}'.format(int(str2,16))
+    # get_control_state(Query_all_return,co)
+    # current_state=get_all_state()
+    # for message in current_state:
+    #     if message !='':
+    #         print message
+    #         relay_number = int(message[0:2])
+    #         relay_state = message[6:8]
+    #         relay_bin = string_to_bin(relay_state)
+    #         print 'relay_number:',relay_number
+    #         print 'relay_state:'+relay_bin
+    #     else:
+    #         print 'nothing return'

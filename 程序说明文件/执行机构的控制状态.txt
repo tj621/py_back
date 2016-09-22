@@ -1,0 +1,66 @@
+由于有多个地方同时控制执行机构，所以执行机构的获取方式逻辑上有问题。
+
+三态状态：on off stop 
+
+两态状态：on off
+
+（具体详见CONTROL_CONSTANT.py文件）
+
+url：http://121.43.106.119:8020/control
+
+method：GET、POST
+
+GET 方法：返回的是由网页操作或者是由手机端操作之后的执行机构的状态，而不是温室现场的执行机构状态
+
+response：
+	
+        {
+        "update_time": "2016-08-17 23:37:46",
+        "actuator": {
+            "tri_state": {
+                "roof_vent_south": "off",
+                "roof_vent_north": "stop",
+                "side_vent": "off",
+                "shade_screen_north": "off",
+                "shade_screen_south": "stop",
+                "thermal_screen": "stop"
+            },
+            "bi_state": {
+                "cooling_pump": "off",
+                "cooling_fan":"off",
+                "fan":"off",
+                "fogging": "off",
+                "heating": "off",
+                "co2": "off",
+                "lighting_1": "off",
+                "lighting_2": "off"
+                    }
+                }
+            }
+
+POST 方法：
+
+request：一一下中的一项或者多项。
+{
+	"roof_vent_south": "off",
+        "roof_vent_north": "stop",
+        "side_vent": "off",
+        "shade_screen_north": "off",
+        "shade_screen_south": "stop",
+        "thermal_screen": "stop",
+  	"cooling_pump": "off",
+ 	"cooling_fan":"off",
+        "fan":"off",
+        "fogging": "off",
+        "heating": "off",
+        "co2": "off",
+        "lighting_1": "off",
+        "lighting_2": "off"
+ }
+
+如：
+request：
+{"roof_vent_south": "on"}
+
+response：
+{"roof_vent_south" : "on","status" : "success", "update_time" : "2016-08-17 23:54:57"}

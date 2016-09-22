@@ -2,25 +2,37 @@
 
 @author: Zxh
 '''
+import urllib2
+import urllib
+import json
+import requests
 
-str1="01 01 00 00 61 9C"
-x=''.join(str1.split())
-hehe={"s":-1}
-if hehe.get("s")<0:
-    print hehe.get("s")
-    print abs(hehe.get("s"))
-    
-print x
-print x[0]
-print x[1]
-print x[0:2]
-print x[4:6]
-a='{0:b}'.format(int(x[4:6],16))
-print a
-print len(str(a))
-if len(str(a))<8:
-    str2='0'
-    for i in range(8-len(str(a))):
-        str2+='0'
-    print str2+str(a)
-print bin(int(x[4:6],16))
+r = requests
+url = "http://localhost:8050/"
+url_1 = url + 'indoor'
+post_data = '''{
+	"1": {
+		"59": {
+			"temperature": "5",
+			"humidity": "60",
+			"radiation": "500",
+			"co2": "400",
+			"update_time": "2016-09-19 21:25:50"
+		}
+	},
+	"2": {},
+	"3": {},
+	"4": {},
+	"5": {},
+	"6": {},
+	"7": {},
+	"8": {}
+}'''
+r.post(url_1, post_data)
+# print type(post_data)
+# # post_data=json.dumps(post_data)
+# # print type(post_data)
+# post_data = urllib.quote_plus(post_data)
+# req = urllib2.Request(url=url_1, data=post_data)
+# print req
+# print urllib2.urlopen(req).read()

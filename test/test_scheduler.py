@@ -4,7 +4,6 @@
 '''
 
 
-
 def t2():
     print 's'
     

@@ -1,0 +1,70 @@
+url：http://121.43.106.119:8020/series
+
+请求方法：POST
+
+请求示例：
+
+{
+	"node1_radiation": false,
+	"node1_temperature": false,
+	"node1_humidity": false,
+	"node1_co2": false,
+	"node2_radiation": false,
+	"node2_temperature": false,
+	"node3_radiation": false,
+	"node3_temperature": false,
+	"node3_humidity": false,
+	"node3_co2": false,
+	"node4_radiation": false,
+	"node4_temperature": false,
+	"node4_humidity": false,
+	"node4_co2": false,
+	"node5_radiation": false,
+	"node5_temperature": false,
+	"node5_humidity": false,
+	"node5_co2": false,
+	"node6_radiation": false,
+	"node6_temperature": false,
+	"node6_humidity": false,
+	"node6_co2": false,
+	"node7_radiation": false,
+	"node7_temperature": false,
+	"node7_humidity": false,
+	"node7_co2": false,
+	"node8_radiation": false,
+	"node8_temperature": false,
+	"node8_humidity": false,
+	"node8_co2": false,
+	"radiation": false,
+	"temperature": false,
+	"humidity": false,
+	"co2": false,
+	"wind_direction": false,
+	"wind_speed": false,
+	"rain": false,
+	"atmosphere": false,
+	"start": "2016-08-17",
+	"stop": "2016-08-22"
+}
+
+
+返回示例：
+{
+'series': [
+
+{
+ 'name': 'node1_radiation',
+ 'data': [7.0, 9.2, 9.5, 14.5, 25.2, 29.5, 30.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+},
+
+{
+ 'name': 'node1_temperature',
+ 'data': [7.0, 9.2, 9.5, 14.5, 25.2, 29.5, 30.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+},
+{
+ 'name': 'node1_co2',
+ 'data': [7.0, 9.2, 9.5, 14.5, 25.2, 29.5, 30.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+}
+
+]
+}

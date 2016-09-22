@@ -1,0 +1,21 @@
+说明：主要获取当前室外天气状态，有两个方式获得，一个是气象站，还有一个是网络端获得。目前方案为气象站获得
+
+url：http://121.43.106.119:8020/outdoor
+
+method：GET
+
+response：
+
+        {
+            "outdoor":{
+                "temperature":"30.0",
+                "humidity":"70.0",
+                "radiation":"49000",
+                "co2":"0",
+                "wind_direction":"南风",
+                "wind_speed":"5.0",
+                "rain":"4.0",
+                "atmosphere":"1441",
+                "update_time":"2016-08-14 21:40:23"
+            }
+        }

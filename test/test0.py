@@ -1,18 +1,23 @@
 '''
 @author: Zxh
 '''
-import threading
-result=None
+from scheduler import Scheduler
 
-def calc_sth(args=""):
-  global result
-  #do some calculating
-  result=12345
-  print 'hehe'
-  print args
+b = 4;
+c = 4;
 
-t=threading.Thread(target=calc_sth())
-# t.start()
-# t.join()
-print('Got result:',result)
 
+def a():
+    global b, c
+    try:
+        print b / c;
+    except:
+        print 'error'
+    finally:
+        c = c - 1
+
+
+if __name__ == '__main__':
+    a()
+    s = Scheduler(1, a)
+    s.start();

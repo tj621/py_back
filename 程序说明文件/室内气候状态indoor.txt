@@ -1,0 +1,67 @@
+说明：现在温室内部共有8个节点，所以返回8个节点的数据信息，其中前四个有光照和CO2，其余没有。
+
+返回内容包括：节点采集信息时间、温度、湿度、光照、CO2 五个变量
+
+url ：http://121.43.106.119:8020/indoor
+
+method ：GET
+
+response：
+
+{
+               "1":{
+                    "temperature": "27.1",
+                    "humidity": "71.2",
+                    "radiation": "0",
+                    "co2": "403",
+                    "update_time": "2016-08-14 21:40:22"
+                },
+               "2":{
+                    "temperature": "27.4",
+                    "humidity": "69.8",
+                    "radiation": "0",
+                    "co2": "414",
+                    "update_time": "2016-08-14 21:40:23"
+                },
+               "3":{
+                    "temperature": "27.3",
+                    "humidity": "70.5",
+                    "radiation": "0",
+                    "co2": "353",
+                    "update_time": "2016-08-14 21:40:23"
+                },
+               "4":{
+                    "temperature": "25.1",
+                    "humidity": "65.2",
+                    "radiation": "90",
+                    "co2": "398",
+                    "update_time": "2016-08-14 21:40:23"
+                },
+               "5":{
+                    "temperature": "26.7",
+                    "humidity": "73.3",
+                    "radiation": "0",
+                    "co2": "0",
+                    "update_time": "2016-08-14 21:40:23"
+                },
+               "6":{
+                    "temperature": "27.4",
+                    "humidity": "70.7",
+                    "radiation": "0",
+                    "co2": "0",
+                    "update_time": "2016-08-14 21:40:23"
+                },
+               "7":{
+                    "temperature": "26.7",
+                    "humidity": "72.6",
+                    "radiation": "0",
+                    "co2": "0",
+                    "update_time": "2016-08-14 21:40:23"
+                },
+               "8":{
+                    "temperature": "27.4",
+                    "humidity": "70.1",
+                    "radiation": "0",
+                    "co2": "0",
+                    "update_time": "2016-08-14 21:40:23"
+                }}

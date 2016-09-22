@@ -7,43 +7,99 @@ from control import Control
 from indoor import Indoor
 from scheduler import Scheduler
 from parameter import Parameter
-from database import save_db_indoor, save_db_outdoor, save_db_control, get_db_parameter, save_db_parameter
+from database import save_db_indoor, save_db_outdoor, save_db_control, get_db_parameter, save_db_parameter, \
+    get_db_indoor, get_db_outdoor
 from autorun import auto_run_main, get_side_wait_time
 import json
+import urllib
+import requests
+import sensor
 
+
+r = requests
 app = Flask(__name__)
 
-node0 = Indoor('node_0')
+node0 = Indoor('1')
 outdoor = Outdoor()
 c = Control()
 p = Parameter()
-get_db_parameter(p)  # init parameter from database
+
 control_method = "computer"
+isConnect = False
+url = "http://127.0.0.1:8050/"
+start_time = get_current_time()
+indoor_node_data=''''''
+
+def server_connect():
+    global isConnect, start_time
+    try:
+        data = urllib.urlopen(url).read()
+        if data == 'success':
+            isConnect = True
+        print 'server connect'
+    except:
+        start_time = get_current_time()
+        isConnect = False
+        print 'server disconnect'
+
+
+def post_server_data():
+    global isConnect
+    if isConnect:
+        try:
+            url_indoor = url + 'indoor'
+            post_data = get_db_indoor(start_time)
+            r.post(url_indoor, post_data)
+        except:
+            print 'post indoor data fail, please review'
+        try:
+            url_outdoor = url + 'outdoor'
+            post_data = get_db_outdoor(start_time)
+            r.post(url_outdoor, post_data)
+        except:
+            print 'post indoor data fail, please review'
+
+
+def get_web_command():
+    global isConnect
+    if isConnect:
+        url_1 = url + 'webControl'
+        data = urllib.urlopen(url_1).read()
+        if data != 'wait':
+            c.handle_post(data)
 
 
 def update_indoor():
-    #     save_db_indoor(node0)
+    global start_time,indoor_node_data,ind
+    indoor_node_data=sensor.get_sensor_data()
+    if isConnect == True:
+        start_time = get_current_time()
+    obj=json.loads(indoor_node_data)
+    for key in obj.keys():
+        node0.set_name(key)
+        value=obj.get(key)
+        node0.set_update_time(value['update_time'])
+        node0.set_co2(value['co2'])
+        node0.set_temperature(value['temperature'])
+        node0.set_humidity(value['humidity'])
+        save_db_indoor(node0)
     print 'indoor updated', get_current_time()
 
 
 def update_outdoor():
-    outdoor.get_weather_from_api()
-    #     save_db_outdoor(outdoor)
+    try:
+        outdoor.get_weather_from_api()
+        outdoor.set_wind_direction_number()
+    except:
+        print 'get outdoor from weather api error'
+    outdoor.set_update_time(get_current_time())
+    save_db_outdoor(outdoor)
     print 'outdoor updated', get_current_time()
 
 
 def update_control():
-    #     save_db_control(c)
+    # save_db_control(c)
     print 'control updated', get_current_time()
-
-
-scheduler1 = Scheduler(2000, update_outdoor)
-scheduler2 = Scheduler(3000, update_indoor)
-scheduler3 = Scheduler(5000, update_control)
-update_outdoor()  # init outdoor from internet
-scheduler1.start()
-scheduler2.start()
-scheduler3.start()
 
 
 def auto_running():
@@ -51,18 +107,13 @@ def auto_running():
     auto_run_main(node0, outdoor, c, p)
 
 
-auto = Scheduler(10, auto_running)
+auto = Scheduler(900, auto_running)
 wait_time = Scheduler(1, get_side_wait_time)
-
-
-@app.route('/')
-def index():
-    return '<h1>Hello World!</h1>'
 
 
 @app.route('/indoor')
 def get_indoor():
-    return node0.build_json()
+    return indoor_node_data
 
 
 @app.route('/outdoor')
@@ -75,7 +126,10 @@ def control():
     if request.method == 'POST':
         try:
             data = request.data
-            return c.handle_post(data)
+            c.set_update_time(get_current_time())
+            r=c.handle_post(data)
+            save_db_control(r)
+            return r
         except ValueError:
             return "get currently control state success"
     else:
@@ -123,8 +177,35 @@ def parameter():
         return 'save success'
 
 
+def init():
+    get_db_parameter(p)
+    update_indoor()
+    update_outdoor()
+    update_control()
+    server_connect()
+    post_server_data()
+    get_web_command()
+
+
+init()
+scheduler1 = Scheduler(60, update_outdoor)
+scheduler2 = Scheduler(60, update_indoor)
+# scheduler3 = Scheduler(30, update_control)
+server_scheduler = Scheduler(60, server_connect)
+post_server_scheduler = Scheduler(60, post_server_data)
+get_web_command_scheduler = Scheduler(0.5, get_web_command)
+scheduler1.start()
+scheduler2.start()
+# scheduler3.start()
+server_scheduler.start()
+post_server_scheduler.start()
+get_web_command_scheduler.start()
+
 if __name__ == '__main__':
-    app.run('0.0.0.0', '8020')
+    app.run('0.0.0.0', '8020', threaded=True)
     scheduler1.stop()
     scheduler2.stop()
-    scheduler3.stop()
+    server_scheduler.stop()
+    get_web_command_scheduler.stop()
+    get_web_command_scheduler.stop()
+    # scheduler3.stop()

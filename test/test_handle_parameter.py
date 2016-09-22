@@ -5,19 +5,20 @@
 from parameter import Parameter
 import json
 
-p=Parameter()
+p = Parameter()
 
-def get_json_value(obj,Parameter):
-    keys=obj.keys()
+
+def get_json_value(obj, Parameter):
+    keys = obj.keys()
     for key in keys:
-        value=obj.get(key)
-        setattr(Parameter,"_Parameter__"+key, value)
-        print key,getattr(Parameter,"_Parameter__"+key)
+        value = obj.get(key)
+        setattr(Parameter, "_Parameter__" + key, value)
+        print key, getattr(Parameter, "_Parameter__" + key)
     return Parameter
 
 # data=p.build_to_json()
 # print data
-data='''{       "update_time":"",
+data = '''{       "update_time":"",
            "plant_parameter_setting":{
                                 "time1":"1", 
                                 "temperature1":"2",
@@ -95,7 +96,7 @@ data='''{       "update_time":"",
 # obj=json.loads(data)
 # print obj['plant_parameter_setting']
 # p=get_json_value(obj['plant_parameter_setting'], p)
-p=p.handle_post_parameter(data)
+p = p.handle_post_parameter(data)
 # print obj['plant_parameter_setting']['time1']
 print p.get_time_1()
 print p.get_co_2_upper_limit()

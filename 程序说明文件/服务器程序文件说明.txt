@@ -1,0 +1,26 @@
+control.py：执行机构的基本封装
+
+control_command.py：给上位机发送的指令类封装
+
+CONSTROL_CONSTANT.py：执行机构的统计
+
+currenttime.py：一些常用的时间函数
+
+greenhouse.db：arm数据库，无效
+
+indoor.py：室内气候封装
+
+outdoor.py：室外气候封装
+
+readme.txt：服务器位置说明
+
+scheduler.py：定时器
+
+schema.sql：生成数据库表格
+
+parameter.py:暂时无效
+
+database.py:数据库存储读取操作封装
+
+main.py: 主函数，提供处理request请求并返回
+

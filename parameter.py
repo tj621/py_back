@@ -1,3 +1,4 @@
+# coding=utf-8
 '''
 
 @author: Zxh
@@ -8,33 +9,33 @@ import json
 
 class Parameter(object):
     plant_parameter = (
-    'time1', 'time2', 'time3', 'time4', 'temperature1', 'temperature2', 'temperature3', 'temperature4')
+        'time1', 'time2', 'time3', 'time4', 'temperature1', 'temperature2', 'temperature3', 'temperature4')
     co2_parameter = ('co2_upper_limit', 'co2_lower_limit')
     cool_fans_parameter = ('cooling_start_temperature', 'cooling_stop_temperature')
     roof_vent_parameter = (
-    'expect_humidity', 'humidity_influence_range_of_air_temperature', 'low_humidity_influence_on_air_temperature',
-    'high_humidity_influence_on_air_temperature', 'expect_light',
-    'light_influence_on_air_temperature_slope', 'high_light_influence_on_temperature',
-    'low_light_influence_on_temperature', 'frost_temperature', 'indoor_temperature_lower_limit',
-    'roof_vent_wind_speed_upper_limit', 'roof_vent_rain_upper_limit')
+        'expect_humidity', 'humidity_influence_range_of_air_temperature', 'low_humidity_influence_on_air_temperature',
+        'high_humidity_influence_on_air_temperature', 'expect_light',
+        'light_influence_on_air_temperature_slope', 'high_light_influence_on_temperature',
+        'low_light_influence_on_temperature', 'frost_temperature', 'indoor_temperature_lower_limit',
+        'roof_vent_wind_speed_upper_limit', 'roof_vent_rain_upper_limit')
     heating_parameter = ('heating_start_lowest_temperature', 'heating_stop_highest_temperature')
     thermal_screen_parameter = (
-    'month_to_open_thermal_screen', 'month_to_close_thermal_screen', 'time_to_open_thermal_screen',
-    'time_to_close_thermal_screen')
+        'month_to_open_thermal_screen', 'month_to_close_thermal_screen', 'time_to_open_thermal_screen',
+        'time_to_close_thermal_screen')
     side_vent_parameter = ('temperature_to_open_side', 'wait_time_to_open_side', 'rain_upper_limit_to_close')
     other_parameter = ('upper_limit_light_to_open_out_shade_screen', 'upper_limit_light_to_open_in_shade_screen',
                        'soil_humidity_to_start_irrigation', 'soil_humidity_to_stop_irrigation',
                        'temperature_to_open_fogging'
                        'temperature_to_open_cooling_pad')
     lighting_parameter = (
-    'month_to_open_lighting', 'month_to_close_lighting', 'period1_start_lighting', 'period1_stop_lighting',
-    'period2_start_lighting', 'period2_stop_lighting', 'radiation1_to_open_lighting', 'radiation2_to_open_lighting')
+        'month_to_open_lighting', 'month_to_close_lighting', 'period1_start_lighting', 'period1_stop_lighting',
+        'period2_start_lighting', 'period2_stop_lighting', 'radiation1_to_open_lighting', 'radiation2_to_open_lighting')
     time_that_full_open_to_full_close_parameter = (
-    'roof_vent_open_time', 'side_vent_open_time', 'shade_screen_out_open_time', 'shade_screen_in_open_time',
-    'thermal_screen_open_time')
+        'roof_vent_open_time', 'side_vent_open_time', 'shade_screen_out_open_time', 'shade_screen_in_open_time',
+        'thermal_screen_open_time')
 
     def __init__(self):
-        self.update_time = ""
+        self.__update_time = ""
         self.__time1 = ""
         self.__temperature1 = ""
         self.__time2 = ""
@@ -434,7 +435,7 @@ class Parameter(object):
         self.get_json_value(lighting_setting)
         self.get_json_value(time_that_full_open_to_full_close)
 
-    #         return self
+    # return self
 
     def build_to_json(self):
         return '''{       "update_time":"%s",
@@ -512,7 +513,7 @@ class Parameter(object):
                              }
            }                 
            ''' \
-               % (get_current_time(),
+               % (self.__update_time,
                   self.get_time_1(),
                   self.get_temperature_1(),
                   self.get_time_2(),
@@ -574,7 +575,7 @@ class Parameter(object):
                   self.get_shade_screen_out_open_time(),
                   self.get_shade_screen_in_open_time(),
                   self.get_thermal_screen_open_time()
-                  )
+        )
 
     def get_json_value(self, obj):
         keys = obj.keys()
@@ -585,10 +586,10 @@ class Parameter(object):
             #         return self
 
 # test
-# if __name__=='__main__':
-#     print Parameter().get_co2_lower_limit()
-#     test=Parameter()
+if __name__=='__main__':
+# print Parameter().get_co2_lower_limit()
+    test=Parameter()
 #     d="d"
 #     test.set__side_vent_open_time(d)
 #     print test.get_co_2_lower_limit()
-#     print test.build_to_json()
+    print test.build_to_json()

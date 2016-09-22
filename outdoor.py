@@ -5,17 +5,39 @@ from currenttime import get_current_time
 
 url = 'https://api.heweather.com/x3/weather?city=jiading&key=8924d0a789dd4e348982cfe7f721267c'
 
+
 class Outdoor(object):
+    wind_direction_data = {
+        "1": u"东风",
+        "2": u"南风",
+        "3": u"西风",
+        "4": u"北风",
+        "12": u"东南风",
+        "14": u"东北风",
+        "23": u"西南风",
+        "34": u"西北风"
+    }
+
+    def get_db_wind_direction(self, key):
+        return self.wind_direction_data.get(key)
+
+    def set_wind_direction_number(self):
+        value = self.get_wind_direction()
+        keys = self.wind_direction_data.keys()
+        for key in keys:
+            if self.wind_direction_data[key] == value:
+                self.set_wind_direction(key)
+
     def __init__(self):
-        self.__update_time = "just now"
-        self.__temperature = "10"
-        self.__humidity = "5"
-        self.__radiation = "300"
-        self.__co2 = "600"
-        self.__wind_direction = "6"
-        self.__wind_speed = "3"
-        self.__rain = "1"
-        self.__atmosphere = "0"
+        self.__update_time = get_current_time()
+        self.__temperature = 10.0
+        self.__humidity = 5
+        self.__radiation = 600
+        self.__co2 = 600
+        self.__wind_direction = "12"
+        self.__wind_speed = 3
+        self.__rain = 1
+        self.__atmosphere = 0
 
     def get_update_time(self):
         return self.__update_time
@@ -88,7 +110,6 @@ class Outdoor(object):
         self.__atmosphere = value
 
 
-
     def set_outdoor(self, update_time1, temperature1, humidity1, radiation1, co21, wind_direction1, wind_speed1,
                     rain1, atmosphere1):
         self.__update_time = update_time1
@@ -100,9 +121,8 @@ class Outdoor(object):
         self.__wind_speed = wind_speed1
         self.__rain = rain1
         self.__atmosphere = atmosphere1
-    
-    
-    
+
+
     def build_json(self):
         return '''
         {
@@ -134,19 +154,20 @@ class Outdoor(object):
         radiation = '300'
         co2 = '600'
         wind_direction = wea_json['now']['wind']['dir']
-        wind_speed = str(wea_json['now']['wind']['spd'])
+        wind_speed = '%.1f' % (float(wea_json['now']['wind']['spd']) / 3.6)
         rain = wea_json['now']['pcpn']
-        if (float(rain)) > 1.0:
-            rain = 'true'  # raining
-        else:
-            rain = 'false'  # no rain
+        # if (float(rain)) > 1.0:
+        # rain = 'true'  # raining
+        #else:
+        #    rain = 'false'  # no rain
         atmosphere = str(wea_json['now']['pres'])
         self.set_outdoor(update_time, temperature, humidity, radiation, co2, wind_direction, wind_speed, rain,
                          atmosphere)
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     print 'test'
-    a=Outdoor()
+    a = Outdoor()
     a.get_weather_from_api()
     print a.build_json()
     print a.get_wind_speed()

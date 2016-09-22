@@ -1,3 +1,5 @@
+# coding=utf-8
+
 import json
 from currenttime import get_current_time
 from relay_output import tri_state_relay_output, bi_state_relay_output
@@ -7,13 +9,17 @@ class Control(object):
     '''the object of tri-state actuators and bi-state'''
 
     def __init__(self):
-        self.__roof_vent_south = "on"
-        self.__roof_vent_north = "on"
-        self.__side_vent = "on"
-        self.__shade_screen_out = "on"
-        self.__shade_screen_in = "on"
-        self.__thermal_screen = "on"
-        self.__cooling_pad = "on"
+        self.__update_time = "2016/07/27 22:08:00"
+        self.__roof_vent_south = "stop"
+        self.__roof_vent_north = "stop"
+        self.__side_vent = "stop"
+        self.__shade_screen_out = "stop"
+        self.__shade_screen_in = "stop"
+        self.__thermal_screen = "stop"
+
+        self.__cooling_pump = "off"
+        self.__cooling_fan = "off"
+        self.__fan = "off"
         self.__fogging = "off"
         self.__heating = "off"
         self.__co2 = "off"
@@ -21,35 +27,118 @@ class Control(object):
         self.__lighting_2 = "off"
         self.__irrigation = "off"
 
+
+    def get_roof_vent_south(self):
+        return self.__roof_vent_south
+
+
+    def get_roof_vent_north(self):
+        return self.__roof_vent_north
+
+
+    def get_side_vent(self):
+        return self.__side_vent
+
+
+    def get_shade_screen_out(self):
+        return self.__shade_screen_out
+
+
+    def get_shade_screen_in(self):
+        return self.__shade_screen_in
+
+
+    def get_thermal_screen(self):
+        return self.__thermal_screen
+
+
+    def get_cooling_pump(self):
+        return self.__cooling_pump
+
+
+    def get_cooling_fan(self):
+        return self.__cooling_fan
+
+
+    def get_fan(self):
+        return self.__fan
+
+
+    def get_fogging(self):
+        return self.__fogging
+
+
+    def get_heating(self):
+        return self.__heating
+
+
+    def get_co2(self):
+        return self.__co2
+
+
+    def get_lighting_1(self):
+        return self.__lighting_1
+
+
+    def get_lighting_2(self):
+        return self.__lighting_2
+
+    def get_irrigation(self):
+        return self.__irrigation
+
+    def get_update_time(self):
+        return self.__update_time
+
+    def set_update_time(self, value):
+        self.__update_time = value
+
     def set_roof_vent_south(self, value):
         self.__roof_vent_south = value
+
 
     def set_roof_vent_north(self, value):
         self.__roof_vent_north = value
 
+
     def set_side_vent(self, value):
         self.__side_vent = value
+
 
     def set_shade_screen_out(self, value):
         self.__shade_screen_out = value
 
-    def set_shade_screen_in(self, value):
+
+    def set_shade_screen_out(self, value):
         self.__shade_screen_in = value
+
 
     def set_thermal_screen(self, value):
         self.__thermal_screen = value
 
-    def set_cooling_pad(self, value):
-        self.__cooling_pad = value
+
+    def set_cooling_pump(self, value):
+        self.__cooling_pump = value
+
+
+    def set_cooling_fan(self, value):
+        self.__cooling_fan = value
+
+
+    def set_fan(self, value):
+        self.__fan = value
+
 
     def set_fogging(self, value):
         self.__fogging = value
 
+
     def set_heating(self, value):
         self.__heating = value
 
-    def set_co_2(self, value):
+
+    def set_co2(self, value):
         self.__co2 = value
+
 
     def set_lighting_1(self, value):
         self.__lighting_1 = value
@@ -59,45 +148,6 @@ class Control(object):
 
     def set_irrigation(self, value):
         self.__irrigation = value
-
-    def get_roof_vent_south(self):
-        return self.__roof_vent_south
-
-    def get_roof_vent_north(self):
-        return self.__roof_vent_north
-
-    def get_side_vent(self):
-        return self.__side_vent
-
-    def get_shade_screen_out(self):
-        return self.__shade_screen_out
-
-    def get_shade_screen_in(self):
-        return self.__shade_screen_in
-
-    def get_thermal_screen(self):
-        return self.__thermal_screen
-
-    def get_cooling_pad(self):
-        return self.__cooling_pad
-
-    def get_fogging(self):
-        return self.__fogging
-
-    def get_heating(self):
-        return self.__heating
-
-    def get_co2(self):
-        return self.__co2
-
-    def get_lighting_1(self):
-        return self.__lighting_1
-
-    def get_lighting_2(self):
-        return self.__lighting_2
-
-    def get_irrigation(self):
-        return self.__irrigation
 
     def handle_post(self, data):
         obj = json.loads(data)
@@ -132,8 +182,8 @@ class Control(object):
     def build_json(self):
         return '''
         {
-    "update_time": "%s",
-    "actuator": {
+      "update_time": "%s",
+      "actuator": {
         "tri_state": {
             "roof_vent_south": "%s",
             "roof_vent_north": "%s",
@@ -143,8 +193,10 @@ class Control(object):
             "thermal_screen": "%s"
         },
         "bi_state": {
-            "cooling_pad": "%s",
-            "fogging": "%s",
+            "cooling_pump": "%s",
+            "cooling_fan":"%s"
+            "fan":"%s"
+            "fogging":"%s",
             "heating": "%s",
             "co2": "%s",
             "lighting_1": "%s",
@@ -153,21 +205,23 @@ class Control(object):
                 }
             }
         }''' \
-               % (get_current_time(),
+               % ( self.__update_time,
                   self.__roof_vent_south,
                   self.__roof_vent_north,
                   self.__side_vent,
                   self.__shade_screen_out,
                   self.__shade_screen_in,
                   self.__thermal_screen,
-                  self.__cooling_pad,
+                  self.__cooling_pump,
+                  self.__cooling_fan,
+                  self.__fan,
                   self.__fogging,
                   self.__heating,
                   self.__co2,
                   self.__lighting_1,
                   self.__lighting_2,
                   self.__irrigation
-                  )
+        )
 
     tri_states_actuators = ("roof_vent_south", "roof_vent_north", "side_vent",
                             "shade_screen_out", "shade_screen_in", "thermal_screen")
@@ -177,3 +231,7 @@ class Control(object):
     tri_states = ("on", "off", "stop")
 
     bi_states = ("on", "off")
+
+if __name__=='__main__':
+    c=Control()
+    print c.build_json()
