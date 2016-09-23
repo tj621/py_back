@@ -65,6 +65,17 @@ def save_db_indoor(Indoor):
         db.close()
     print 'indoor save success'
 
+def delete_db_data(value):
+    with app.app_context():
+        db=get_db()
+        sql='''delete from %s;'''%value
+        db.execute(sql)
+        sql='''select * from sqlite_sequence;'''
+        db.execute(sql)
+        sql="update sqlite_sequence set seq=0 where name= '" + value+"'"
+        db.execute(sql)
+        db.commit()
+        db.close()
 
 def get_db_indoor(start_time):
     with app.app_context():
@@ -152,10 +163,10 @@ def save_db_outdoor(Outdoor):
 def save_db_control(Control):
     with app.app_context():
         db = get_db()
-        db.execute('INSERT INTO control_state(update_time,roof_vent_south,roof_vent_north,side_vent,shade_screen_out,shade_screen_in,thermal_screen,\
+        db.execute('INSERT INTO control_state(update_time,roof_vent_south,roof_vent_north,side_vent,shade_screen_north,shade_screen_south,thermal_screen,\
         cooling_pump,cooling_fan,fan,fogging,heating,co2,lighting_1,lighting_2,irrigation) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
                    [Control.get_update_time(), Control.get_roof_vent_south(), Control.get_roof_vent_north(),
-                    Control.get_side_vent(), Control.get_shade_screen_out(), Control.get_shade_screen_in(), \
+                    Control.get_side_vent(), Control.get_shade_screen_north(), Control.get_shade_screen_south(), \
                     Control.get_thermal_screen(), Control.get_cooling_pump(), Control.get_cooling_fan(),
                     Control.get_fan(), Control.get_fogging(),
                     Control.get_heating(), Control.get_co2(), Control.get_lighting_1(), Control.get_lighting_2(),
@@ -308,9 +319,10 @@ def query_db_2(query, args=(), one=False):
 
 
 if __name__ == '__main__':
+    delete_db_data('parameter')
     # start_time="2016-09-18 22:22:22"
     # get_db_outdoor(start_time)
-    init_db()
+    # init_db()
     # for i in range(8):
     #     indoor = Indoor(i + 1)
     #     save_db_indoor(indoor)

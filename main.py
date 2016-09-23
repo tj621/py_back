@@ -8,7 +8,7 @@ from indoor import Indoor
 from scheduler import Scheduler
 from parameter import Parameter
 from database import save_db_indoor, save_db_outdoor, save_db_control, get_db_parameter, save_db_parameter, \
-    get_db_indoor, get_db_outdoor
+    get_db_indoor, get_db_outdoor, delete_db_data
 from autorun import auto_run_main, get_side_wait_time
 import json
 import urllib
@@ -49,12 +49,14 @@ def post_server_data():
         try:
             url_indoor = url + 'indoor'
             post_data = get_db_indoor(start_time)
+            delete_db_data('indoor')
             r.post(url_indoor, post_data)
         except:
             print 'post indoor data fail, please review'
         try:
             url_outdoor = url + 'outdoor'
             post_data = get_db_outdoor(start_time)
+            delete_db_data('outdoor')
             r.post(url_outdoor, post_data)
         except:
             print 'post indoor data fail, please review'
