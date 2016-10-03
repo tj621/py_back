@@ -110,11 +110,11 @@ control_relay = {
             "on": first_relay[4],
             "off": first_relay[5]
         },
-        "shade_screen_out": {
+        "shade_screen_north": {
             "on": first_relay[6],
             "off": first_relay[7]
         },
-        "shade_screen_in": {
+        "shade_screen_south": {
             "on": second_relay[0],
             "off": second_relay[1]
         },

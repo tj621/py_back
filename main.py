@@ -12,6 +12,7 @@ from database import save_db_indoor, save_db_outdoor, save_db_control, get_db_pa
 from autorun import auto_run_main, get_side_wait_time
 import json
 import urllib
+# import urllib2
 import requests
 import sensor
 
@@ -49,7 +50,12 @@ def post_server_data():
         try:
             url_indoor = url + 'indoor'
             post_data = get_db_indoor(start_time)
+            # eval(post_data)
             delete_db_data('indoor')
+            # post_data=urllib.urlencode(post_data)
+            # request = urllib2.Request(url, post_data)
+            # response = urllib2.urlopen(request)
+            # print response.read()
             r.post(url_indoor, post_data)
         except:
             print 'post indoor data fail, please review'
@@ -130,7 +136,7 @@ def control():
             data = request.data
             c.set_update_time(get_current_time())
             r=c.handle_post(data)
-            save_db_control(r)
+            save_db_control(c)
             return r
         except ValueError:
             return "get currently control state success"

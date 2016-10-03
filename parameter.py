@@ -35,68 +35,74 @@ class Parameter(object):
         'thermal_screen_open_time')
 
     def __init__(self):
-        self.__update_time = ""
-        self.__time1 = ""
-        self.__temperature1 = ""
-        self.__time2 = ""
-        self.__temperature2 = ""
-        self.__time3 = ""
-        self.__temperature3 = ""
-        self.__time4 = ""
-        self.__temperature4 = ""
+        self.__update_time = get_current_time()
+        self.__time1 = "1"
+        self.__temperature1 = "1"
+        self.__time2 = "1"
+        self.__temperature2 = "1"
+        self.__time3 = "1"
+        self.__temperature3 = "1"
+        self.__time4 = "1"
+        self.__temperature4 = "1"
 
-        self.__co2_upper_limit = ""
-        self.__co2_lower_limit = ""
+        self.__co2_upper_limit = "1"
+        self.__co2_lower_limit = "1"
 
-        self.__cooling_start_temperature = ""
-        self.__cooling_stop_temperature = ""
+        self.__cooling_start_temperature = "1"
+        self.__cooling_stop_temperature = "1"
 
-        self.__expect_humidity = ""
-        self.__humidity_influence_range_of_air_temperature = ""
-        self.__low_humidity_influence_on_air_temperature = ""
-        self.__high_humidity_influence_on_air_temperature = ""
-        self.__expect_light = ""
-        self.__light_influence_on_air_temperature_slope = ""
-        self.__high_light_influence_on_temperature = ""
-        self.__low_light_influence_on_temperature = ""
-        self.__frost_temperature = ""
-        self.__indoor_temperature_lower_limit = ""
-        self.__roof_vent_wind_speed_upper_limit = ""
-        self.__roof_vent_rain_upper_limit = ""
+        self.__expect_humidity = "1"
+        self.__humidity_influence_range_of_air_temperature = "1"
+        self.__low_humidity_influence_on_air_temperature = "1"
+        self.__high_humidity_influence_on_air_temperature = "1"
+        self.__expect_light = "1"
+        self.__light_influence_on_air_temperature_slope = "1"
+        self.__high_light_influence_on_temperature = "1"
+        self.__low_light_influence_on_temperature = "1"
+        self.__frost_temperature = "1"
+        self.__indoor_temperature_lower_limit = "1"
+        self.__roof_vent_wind_speed_upper_limit = "1"
+        self.__roof_vent_rain_upper_limit = "1"
 
-        self.__heating_start_lowest_temperature = ""
-        self.__heating_stop_highest_temperature = ""
+        self.__heating_start_lowest_temperature = "1"
+        self.__heating_stop_highest_temperature = "1"
 
-        self.__month_to_open_thermal_screen = ""
-        self.__month_to_close_thermal_screen = ""
-        self.__time_to_open_thermal_screen = ""
-        self.__time_to_close_thermal_screen = ""
+        self.__month_to_open_thermal_screen = "1"
+        self.__month_to_close_thermal_screen = "1"
+        self.__time_to_open_thermal_screen = "1"
+        self.__time_to_close_thermal_screen = "1"
 
-        self.__temperature_to_open_side = ""
-        self.__wait_time_to_open_side = ""
-        self.__rain_upper_limit_to_close = ""
+        self.__temperature_to_open_side = "1"
+        self.__wait_time_to_open_side = "1"
+        self.__rain_upper_limit_to_close = "1"
 
-        self.__upper_limit_light_to_open_out_shade_screen = ""
-        self.__upper_limit_light_to_open_in_shade_screen = ""
-        self.__soil_humidity_to_start_irrigation = ""
-        self.__soil_humidity_to_stop_irrigation = ""
-        self.__temperature_to_open_fogging = ""
-        self.__temperature_to_open_cooling_pad = ""
+        self.__upper_limit_light_to_open_out_shade_screen = "1"
+        self.__upper_limit_light_to_open_in_shade_screen = "1"
+        self.__soil_humidity_to_start_irrigation = "1"
+        self.__soil_humidity_to_stop_irrigation = "1"
+        self.__temperature_to_open_fogging = "1"
+        self.__temperature_to_open_cooling_pad = "1"
 
-        self.__month_to_open_lighting = ""
-        self.__month_to_close_lighting = ""
-        self.__period1_start_lighting = ""
-        self.__period1_stop_lighting = ""
-        self.__period2_start_lighting = ""
-        self.__period2_stop_lighting = ""
-        self.__radiation1_to_open_lighting = ""
-        self.__radiation2_to_open_lighting = ""
+        self.__month_to_open_lighting = "1"
+        self.__month_to_close_lighting = "1"
+        self.__period1_start_lighting = "1"
+        self.__period1_stop_lighting = "1"
+        self.__period2_start_lighting = "1"
+        self.__period2_stop_lighting = "1"
+        self.__radiation1_to_open_lighting = "1"
+        self.__radiation2_to_open_lighting = "1"
 
-        self.__roof_vent_open_time = ""
-        self.__side_vent_open_time = ""
-        self.__shade_screen_out_open_time = ""
-        self.__shade_screen_in_open_time = ""
-        self.__thermal_screen_open_time = ""
+        self.__roof_vent_open_time = "1"
+        self.__side_vent_open_time = "1"
+        self.__shade_screen_out_open_time = "1"
+        self.__shade_screen_in_open_time = "1"
+        self.__thermal_screen_open_time = "1"
+
+    def get_update_time(self):
+        return self.__update_time;
+
+    def set_update_time(self,value):
+        self.__update_time = value;
 
     def get_time_1(self):
         return self.__time1
@@ -412,7 +418,7 @@ class Parameter(object):
 
     def handle_post_parameter(self, data):
         data = json.loads(data)
-        self.update_time = data['update_time']
+        self.set_update_time(data['update_time'])
         co2_parameter_setting = data['co2_parameter_setting']
         plant_parameter_setting = data['plant_parameter_setting']
         cooling_fans = data['cooling_fans']

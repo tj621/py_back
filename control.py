@@ -194,8 +194,8 @@ class Control(object):
         },
         "bi_state": {
             "cooling_pump": "%s",
-            "cooling_fan":"%s"
-            "fan":"%s"
+            "cooling_fan":"%s",
+            "fan":"%s",
             "fogging":"%s",
             "heating": "%s",
             "co2": "%s",

@@ -72,7 +72,7 @@ def delete_db_data(value):
         db.execute(sql)
         sql='''select * from sqlite_sequence;'''
         db.execute(sql)
-        sql="update sqlite_sequence set seq=0 where name= '" + value+"'"
+        sql="update sqlite_sequence set seq=1 where name= '" + value+"'"
         db.execute(sql)
         db.commit()
         db.close()
@@ -186,7 +186,7 @@ def save_db_parameter(Parameter):
                     wait_time_to_open_side,rain_upper_limit_to_close, upper_limit_light_to_open_shade_screen_out,upper_limit_light_to_open_shade_screen_in,soil_humidity_to_start_irrigation,soil_humidity_to_stop_irrigation,temperature_to_open_fogging,temperature_to_open_cooling_pad,\
                     month_to_open_lighting,month_to_close_lighting,period1_start_lighting,period1_stop_lighting,period2_start_lighting,period2_stop_lighting,radiation1_to_open_lighting,radiation2_to_open_lighting,roof_vent_open_time,side_vent_open_time,shade_screen_out_open_time,\
                     shade_screen_in_open_time,thermal_screen_open_time ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', \
-                   [Parameter.update_time, Parameter.get_time_1(), Parameter.get_temperature_1(),
+                   [Parameter.get_update_time(), Parameter.get_time_1(), Parameter.get_temperature_1(),
                     Parameter.get_time_2(), Parameter.get_temperature_2(), Parameter.get_time_3(),
                     Parameter.get_temperature_3(), Parameter.get_time_4(), Parameter.get_temperature_4(),
                     Parameter.get_co_2_upper_limit(), Parameter.get_co_2_lower_limit(),
@@ -233,70 +233,73 @@ def save_db_parameter(Parameter):
 
 def get_db_parameter(Parameter):
     query = 'select * from parameter where id=(select max(id) from parameter)'
-    row = query_db_1(query)
-    a = 2
-    Parameter.update_time = row[1]
-    Parameter.set_time_1(row[a])
-    Parameter.set_temperature_1(row[a + 1])
-    Parameter.set_time_2(row[a + 2])
-    Parameter.set_temperature_2(row[a + 3])
-    Parameter.set_time_3(row[a + 4])
-    Parameter.set_temperature_3(row[a + 5])
-    Parameter.set_time_4(row[a + 6])
-    Parameter.set_temperature_4(row[a + 7])
+    try:
+        row = query_db_1(query)
+        a = 2
+        Parameter.set_update_time(row[1])
+        Parameter.set_time_1(row[a])
+        Parameter.set_temperature_1(row[a + 1])
+        Parameter.set_time_2(row[a + 2])
+        Parameter.set_temperature_2(row[a + 3])
+        Parameter.set_time_3(row[a + 4])
+        Parameter.set_temperature_3(row[a + 5])
+        Parameter.set_time_4(row[a + 6])
+        Parameter.set_temperature_4(row[a + 7])
 
-    Parameter.set_co_2_upper_limit(row[a + 8])
-    Parameter.set_co_2_lower_limit(row[a + 9])
-    Parameter.set_cooling_start_temperature(row[a + 10])
-    Parameter.set_cooling_stop_temperature(row[a + 11])
+        Parameter.set_co_2_upper_limit(row[a + 8])
+        Parameter.set_co_2_lower_limit(row[a + 9])
+        Parameter.set_cooling_start_temperature(row[a + 10])
+        Parameter.set_cooling_stop_temperature(row[a + 11])
 
-    Parameter.set_expect_humidity(row[a + 12])
-    Parameter.set_humidity_influence_range_of_air_temperature(row[a + 13])
-    Parameter.set_low_humidity_influence_on_air_temperature(row[a + 14])
-    Parameter.set_high_humidity_influence_on_air_temperature(row[a + 15])
-    Parameter.set_expect_light(row[a + 16])
-    Parameter.set_light_influence_on_air_temperature_slope(row[a + 17])
-    Parameter.set_high_light_influence_on_temperature(row[a + 18])
-    Parameter.set_low_light_influence_on_temperature(row[a + 19])
-    Parameter.set_frost_temperature(row[a + 20])
-    Parameter.set_indoor_temperature_lower_limit(row[a + 21])
-    Parameter.set_roof_vent_wind_speed_upper_limit(row[a + 22])
-    Parameter.set_roof_vent_rain_upper_limit(row[a + 23])
+        Parameter.set_expect_humidity(row[a + 12])
+        Parameter.set_humidity_influence_range_of_air_temperature(row[a + 13])
+        Parameter.set_low_humidity_influence_on_air_temperature(row[a + 14])
+        Parameter.set_high_humidity_influence_on_air_temperature(row[a + 15])
+        Parameter.set_expect_light(row[a + 16])
+        Parameter.set_light_influence_on_air_temperature_slope(row[a + 17])
+        Parameter.set_high_light_influence_on_temperature(row[a + 18])
+        Parameter.set_low_light_influence_on_temperature(row[a + 19])
+        Parameter.set_frost_temperature(row[a + 20])
+        Parameter.set_indoor_temperature_lower_limit(row[a + 21])
+        Parameter.set_roof_vent_wind_speed_upper_limit(row[a + 22])
+        Parameter.set_roof_vent_rain_upper_limit(row[a + 23])
 
-    Parameter.set_heating_start_lowest_temperature(row[a + 24])
-    Parameter.set_heating_stop_highest_temperature(row[a + 25])
+        Parameter.set_heating_start_lowest_temperature(row[a + 24])
+        Parameter.set_heating_stop_highest_temperature(row[a + 25])
 
-    Parameter.set_month_to_open_thermal_screen(row[a + 26])
-    Parameter.set_month_to_close_thermal_screen(row[a + 27])
-    Parameter.set_time_to_open_thermal_screen(row[a + 28])
-    Parameter.set_time_to_close_thermal_screen(row[a + 29])
+        Parameter.set_month_to_open_thermal_screen(row[a + 26])
+        Parameter.set_month_to_close_thermal_screen(row[a + 27])
+        Parameter.set_time_to_open_thermal_screen(row[a + 28])
+        Parameter.set_time_to_close_thermal_screen(row[a + 29])
 
-    Parameter.set_temperature_to_open_side(row[a + 30])
-    Parameter.set_wait_time_to_open_side(row[a + 31])
-    Parameter.set_rain_upper_limit_to_close(row[a + 32])
+        Parameter.set_temperature_to_open_side(row[a + 30])
+        Parameter.set_wait_time_to_open_side(row[a + 31])
+        Parameter.set_rain_upper_limit_to_close(row[a + 32])
 
-    Parameter.set_upper_limit_light_to_open_out_shade_screen(row[a + 33])
-    Parameter.set_upper_limit_light_to_open_in_shade_screen(row[a + 34])
-    Parameter.set_soil_humidity_to_start_irrigation(row[a + 35])
-    Parameter.set_soil_humidity_to_stop_irrigation(row[a + 36])
-    Parameter.set_temperature_to_open_fogging(row[a + 37])
-    Parameter.set_temperature_to_open_cooling_pad(row[a + 38])
+        Parameter.set_upper_limit_light_to_open_out_shade_screen(row[a + 33])
+        Parameter.set_upper_limit_light_to_open_in_shade_screen(row[a + 34])
+        Parameter.set_soil_humidity_to_start_irrigation(row[a + 35])
+        Parameter.set_soil_humidity_to_stop_irrigation(row[a + 36])
+        Parameter.set_temperature_to_open_fogging(row[a + 37])
+        Parameter.set_temperature_to_open_cooling_pad(row[a + 38])
 
-    Parameter.set_month_to_open_lighting(row[a + 39])
-    Parameter.set_month_to_close_lighting(row[a + 40])
-    Parameter.set_period_1_start_lighting(row[a + 41])
-    Parameter.set_period_1_stop_lighting(row[a + 42])
-    Parameter.set_period_2_start_lighting(row[a + 43])
-    Parameter.set_period_2_stop_lighting(row[a + 44])
-    Parameter.set_radiation_1_to_open_lighting(row[a + 45])
-    Parameter.set_radiation_2_to_open_lighting(row[a + 46])
+        Parameter.set_month_to_open_lighting(row[a + 39])
+        Parameter.set_month_to_close_lighting(row[a + 40])
+        Parameter.set_period_1_start_lighting(row[a + 41])
+        Parameter.set_period_1_stop_lighting(row[a + 42])
+        Parameter.set_period_2_start_lighting(row[a + 43])
+        Parameter.set_period_2_stop_lighting(row[a + 44])
+        Parameter.set_radiation_1_to_open_lighting(row[a + 45])
+        Parameter.set_radiation_2_to_open_lighting(row[a + 46])
 
-    Parameter.set_roof_vent_open_time(row[a + 47])
-    Parameter.set_side_vent_open_time(row[a + 48])
-    Parameter.set_shade_screen_out_open_time(row[a + 49])
-    Parameter.set_shade_screen_in_open_time(row[a + 50])
-    Parameter.set_thermal_screen_open_time(row[a + 51])
-    return Parameter.build_to_json()
+        Parameter.set_roof_vent_open_time(row[a + 47])
+        Parameter.set_side_vent_open_time(row[a + 48])
+        Parameter.set_shade_screen_out_open_time(row[a + 49])
+        Parameter.set_shade_screen_in_open_time(row[a + 50])
+        Parameter.set_thermal_screen_open_time(row[a + 51])
+        return Parameter.build_to_json()
+    except:
+        print 'database has no data'
     print 'get parameter success'
 
 
@@ -319,10 +322,10 @@ def query_db_2(query, args=(), one=False):
 
 
 if __name__ == '__main__':
-    delete_db_data('parameter')
+    # delete_db_data('parameter')
     # start_time="2016-09-18 22:22:22"
     # get_db_outdoor(start_time)
-    # init_db()
+    init_db()
     # for i in range(8):
     #     indoor = Indoor(i + 1)
     #     save_db_indoor(indoor)
@@ -330,8 +333,8 @@ if __name__ == '__main__':
     # save_db_outdoor(outdoor)
     # c = Control()
     # save_db_control(c)
-    # p=Parameter()
-    # save_db_parameter(p)
+    p=Parameter()
+    save_db_parameter(p)
     # query='select * from parameter where id=(select max(id) from parameter)'
     # print query_db_1(query)
     # get_db_parameter(p)
