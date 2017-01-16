@@ -2,8 +2,9 @@
 
 @author: Zxh
 '''
-from currenttime import get_time
 from time import sleep
+
+from arm_project.currenttime import get_time
 
 a = "2016-06-15 8:30"
 b = "1015"
