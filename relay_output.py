@@ -124,7 +124,7 @@ control_relay = {
         }
     },
     "bi_state": {
-        "cooling_pad": second_relay[4],
+        "cooling_pump": second_relay[4],
         "fogging": second_relay[5],
         "heating": second_relay[6],
         "co2": second_relay[7],

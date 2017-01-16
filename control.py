@@ -154,26 +154,46 @@ class Control(object):
         keys = obj.keys()
         json_response = "{"
         for key in keys:
+            if key == 'shade_screen_out':
+                key = 'shade_screen_south'
+            if key == 'shade_screen_in':
+                key = 'shade_screen_north'
+            if key == 'cooling_pad':
+                key = 'cooling_pump'
             if key in Control.tri_states_actuators:
-                value = obj.get(key)
+                if key == 'shade_screen_south':
+                    value = obj.get('shade_screen_out')
+                elif key == 'shade_screen_north':
+                    value = obj.get('shade_screen_in')
+                else:
+                    value = obj.get(key)
                 if value in Control.tri_states:
                     setattr(self, "_Control__" + key, value)
                     print key, getattr(self, "_Control__" + key)
-                    tri_state_relay_output(key, value)
+                    try:
+                        tri_state_relay_output(key, value)
+                    except:
+                        print "the relay don't have the actuator, please review"
                     json_response += '''"%s" : "%s",''' % (key, value)
                 else:
-                    print value, "illegal state"
+                    print value, "tri illegal state"
             elif key in Control.bi_states_actuators:
-                value = obj.get(key)
+                if key == 'cooling_pump':
+                    value = obj.get('cooling_pad')
+                else:
+                    value = obj.get(key)
                 if value in Control.bi_states:
                     setattr(self, "_Control__" + key, value)
                     print key, getattr(self, "_Control__" + key)
-                    bi_state_relay_output(key, value)
+                    try:
+                        bi_state_relay_output(key, value)
+                    except:
+                        print "the relay don't have the actuator, please review"
                     json_response += '''"%s" : "%s", ''' % (key, value)
                 else:
                     print value, "illegal state"
             else:
-                print key, "illegal actuator"
+                print key, "bi illegal actuator"
         json_response += '''"status" : "%s", ''' % "success"
         json_response += '''"update_time" : "%s"''' % get_current_time()
         json_response += "}"
@@ -226,7 +246,7 @@ class Control(object):
     tri_states_actuators = ("roof_vent_south", "roof_vent_north", "side_vent",
                             "shade_screen_north", "shade_screen_south", "thermal_screen")
 
-    bi_states_actuators = ("cooling_pad", "fogging", "heating", "co2", "lighting_1", "lighting_2", "irrigation")
+    bi_states_actuators = ("cooling_pump","cooling_fan ","fan", "fogging", "heating", "co2", "lighting_1", "lighting_2", "irrigation")
 
     tri_states = ("on", "off", "stop")
 
