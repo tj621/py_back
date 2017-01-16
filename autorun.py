@@ -151,14 +151,13 @@ def get_current_control_state(Indoor, Control, Parameter):
     global auto_roof_vent_south, auto_roof_vent_north, auto_side_vent, auto_shade_screen_out, auto_shade_screen_in, auto_thermal_screen, auto_cooling_pad, auto_fogging, auto_heating, auto_co2
     global auto_lighting_1, auto_lighting_2, auto_irrigation, shade_screen_out_time, roof_open_time, side_open_time, thermal_time, shade_screen_in_time
     global auto_indoor_temperature
-    auto_cooling_pad = Control.get_cooling_pad()
+    auto_cooling_pad = Control.get_cooling_fan()
     auto_roof_vent_south = Control.get_roof_vent_south()
     auto_roof_vent_north = Control.get_roof_vent_north()
     auto_side_vent = Control.get_side_vent()
-    auto_shade_screen_out = Control.get_shade_screen_out()
-    auto_shade_screen_in = Control.get_shade_screen_in()
+    auto_shade_screen_out = Control.get_shade_screen_north()
+    auto_shade_screen_in = Control.get_shade_screen_south()
     auto_thermal_screen = Control.get_thermal_screen()
-    auto_cooling_pad = Control.get_cooling_pad()
     auto_fogging = Control.get_fogging()
     auto_heating = Control.get_heating()
     auto_co2 = Control.get_co2()
@@ -493,14 +492,13 @@ def get_current_state_to_save():
     global auto_roof_vent_south, auto_roof_vent_north, auto_side_vent, auto_shade_screen_out, auto_shade_screen_in, auto_thermal_screen, auto_cooling_pad, auto_fogging, auto_heating, auto_co2
     global auto_lighting_1, auto_lighting_2, auto_irrigation
 
-    temp.set_cooling_pad(auto_cooling_pad)
+    temp.set_cooling_fan(auto_cooling_pad)
     temp.set_roof_vent_south(auto_roof_vent_south)
     temp.set_roof_vent_north(auto_roof_vent_north)
     temp.set_side_vent(auto_side_vent)
-    temp.set_shade_screen_out(auto_shade_screen_out)
-    temp.set_shade_screen_in(auto_shade_screen_in)
+    temp.set_shade_screen_north(auto_shade_screen_out)
+    temp.set_shade_screen_south(auto_shade_screen_in)
     temp.set_thermal_screen(auto_thermal_screen)
-    temp.set_cooling_pad(auto_cooling_pad)
     temp.set_fogging(auto_fogging)
     temp.set_heating(auto_heating)
     temp.set_co2(auto_co2)

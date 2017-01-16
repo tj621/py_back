@@ -27,7 +27,7 @@ p = Parameter()
 
 control_method = "computer"
 isConnect = False
-url = "http://127.0.0.1:8050/"
+url = "http://121.43.106.119:8090/"
 start_time = get_current_time()
 indoor_node_data=''''''
 
@@ -37,7 +37,7 @@ def server_connect():
         data = urllib.urlopen(url).read()
         if data == 'success':
             isConnect = True
-        print 'server connect'
+        print 'server connect success'
     except:
         start_time = get_current_time()
         isConnect = False
@@ -138,8 +138,8 @@ def control():
             r=c.handle_post(data)
             save_db_control(c)
             return r
-        except ValueError:
-            return "get currently control state success"
+        except:
+            return "post error"
     else:
         return c.build_json()
 
@@ -165,6 +165,16 @@ def auto_run():
         return model
     else:
         return 'get request null'
+
+
+@app.route('/stationState')
+def stationState():
+    global  isConnect
+    if request.method == 'GET':
+        if isConnect == True:
+            return '''正常运行'''
+        else:
+            return  '''网络连接失败，请检查网络'''
 
 
 @app.route('/computer')
@@ -196,8 +206,8 @@ def init():
 
 
 init()
-scheduler1 = Scheduler(60, update_outdoor)
-scheduler2 = Scheduler(60, update_indoor)
+scheduler1 = Scheduler(300, update_outdoor)
+scheduler2 = Scheduler(300, update_indoor)
 # scheduler3 = Scheduler(30, update_control)
 server_scheduler = Scheduler(60, server_connect)
 post_server_scheduler = Scheduler(60, post_server_data)
@@ -215,5 +225,5 @@ if __name__ == '__main__':
     scheduler2.stop()
     server_scheduler.stop()
     get_web_command_scheduler.stop()
-    get_web_command_scheduler.stop()
+    post_server_scheduler.stop()
     # scheduler3.stop()

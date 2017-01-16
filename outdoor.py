@@ -18,6 +18,44 @@ class Outdoor(object):
         "34": u"西北风"
     }
 
+    def set_angle_to_wind_direction(self, angle=0):
+        if angle == 0:
+            angle = self.get_wind_direction()
+        wind_angle = int(angle) / 45.0
+        temp = u""
+        if 0 < wind_angle < 1:
+            temp = u"东北偏北风"
+        elif wind_angle == 1:
+            temp = u"东北风"
+        elif 1 < wind_angle < 2:
+            temp = u"东北偏东风"
+        elif wind_angle == 2:
+            temp = u"东风"
+        elif 2 < wind_angle < 3:
+            temp = u"东南偏东风"
+        elif wind_angle == 3:
+            temp = u"东南风"
+        elif 3 < wind_angle < 4:
+            temp = u"东南偏南风"
+        elif wind_angle == 4:
+            temp = u"南风"
+        elif 4 < wind_angle < 5:
+            temp = u"西南偏南风"
+        elif wind_angle == 5:
+            temp = u"西南风"
+        elif 5 < wind_angle < 6:
+            temp = u"西南偏西风"
+        elif wind_angle == 6:
+            temp = u"西风"
+        elif 6 < wind_angle < 7:
+            temp = u"西北偏西风"
+        elif wind_angle == 7:
+            temp = u"西北风"
+        elif 7 < wind_angle < 8:
+            temp = u"西北偏北风"
+        else:
+            temp = u"北风"
+        self.set_wind_direction(temp)
     def get_db_wind_direction(self, key):
         return self.wind_direction_data.get(key)
 
@@ -168,6 +206,11 @@ class Outdoor(object):
 if __name__ == '__main__':
     print 'test'
     a = Outdoor()
-    a.get_weather_from_api()
-    print a.build_json()
-    print a.get_wind_speed()
+    print a.get_wind_direction()
+    a.set_wind_direction(320)
+    print a.get_wind_direction()
+    a.set_angle_to_wind_direction()
+    print a.get_wind_direction()
+    # a.get_weather_from_api()
+    # print a.build_json()
+    # print a.get_wind_speed()
