@@ -65,17 +65,19 @@ def save_db_indoor(Indoor):
         db.close()
     print 'indoor save success'
 
+
 def delete_db_data(value):
     with app.app_context():
-        db=get_db()
-        sql='''delete from %s;'''%value
+        db = get_db()
+        sql = '''delete from %s;''' % value
         db.execute(sql)
-        sql='''select * from sqlite_sequence;'''
+        sql = '''select * from sqlite_sequence;'''
         db.execute(sql)
-        sql="update sqlite_sequence set seq=1 where name= '" + value+"'"
+        sql = "update sqlite_sequence set seq=1 where name= '" + value+"'"
         db.execute(sql)
         db.commit()
         db.close()
+
 
 def get_db_indoor(start_time):
     with app.app_context():
@@ -153,7 +155,7 @@ def save_db_outdoor(Outdoor):
                    VALUES(?,?,?,?,?,?,?,?,?)',
                    [Outdoor.get_update_time(), Outdoor.get_temperature(), Outdoor.get_humidity(), Outdoor.get_radiation(),
                     Outdoor.get_co_2(),
-                    Outdoor.get_wind_direction(), \
+                    Outdoor.get_wind_direction(),
                     Outdoor.get_wind_speed(), Outdoor.get_rain(), Outdoor.get_atmosphere()])
         db.commit()
         db.close()
@@ -223,8 +225,7 @@ def save_db_parameter(Parameter):
                     Parameter.get_side_vent_open_time(),
                     Parameter.get_shade_screen_out_open_time(),
                     Parameter.get_shade_screen_in_open_time(),
-                    Parameter.get_thermal_screen_open_time()
-                   ])
+                    Parameter.get_thermal_screen_open_time()])
         db.commit()
         db.cursor().close()
         db.close()
@@ -232,6 +233,7 @@ def save_db_parameter(Parameter):
 
 
 def get_db_parameter(Parameter):
+    """ 获取数据库内用于自动控制所需的参数 """
     query = 'select * from parameter where id=(select max(id) from parameter)'
     try:
         row = query_db_1(query)

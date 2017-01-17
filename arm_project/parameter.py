@@ -1,8 +1,8 @@
 # coding=utf-8
-'''
+"""
 
 @author: Zxh
-'''
+"""
 from currenttime import get_current_time
 import json
 
@@ -99,10 +99,10 @@ class Parameter(object):
         self.__thermal_screen_open_time = "1"
 
     def get_update_time(self):
-        return self.__update_time;
+        return self.__update_time
 
     def set_update_time(self,value):
-        self.__update_time = value;
+        self.__update_time = value
 
     def get_time_1(self):
         return self.__time1
@@ -416,7 +416,16 @@ class Parameter(object):
     def set_thermal_screen_open_time(self, value):
         self.__thermal_screen_open_time = value
 
+    def get_json_value(self, obj):
+        keys = obj.keys()
+        for key in keys:
+            value = obj.get(key)
+            setattr(self, "_Parameter__" + key, value)
+            #             print key,getattr(self,"_Parameter__"+key)
+            #         return self
+
     def handle_post_parameter(self, data):
+        """ 处理获得传输过来的json内的参数数据 """
         data = json.loads(data)
         self.set_update_time(data['update_time'])
         co2_parameter_setting = data['co2_parameter_setting']
@@ -580,22 +589,13 @@ class Parameter(object):
                   self.get_side_vent_open_time(),
                   self.get_shade_screen_out_open_time(),
                   self.get_shade_screen_in_open_time(),
-                  self.get_thermal_screen_open_time()
-        )
-
-    def get_json_value(self, obj):
-        keys = obj.keys()
-        for key in keys:
-            value = obj.get(key)
-            setattr(self, "_Parameter__" + key, value)
-            #             print key,getattr(self,"_Parameter__"+key)
-            #         return self
+                  self.get_thermal_screen_open_time())
 
 # test
-if __name__=='__main__':
-# print Parameter().get_co2_lower_limit()
-    test=Parameter()
-#     d="d"
-#     test.set__side_vent_open_time(d)
-#     print test.get_co_2_lower_limit()
+if __name__ == '__main__':
+#   print Parameter().get_co2_lower_limit()
+    test = Parameter()
+#   d="d"
+#   test.set__side_vent_open_time(d)
+#   print test.get_co_2_lower_limit()
     print test.build_to_json()

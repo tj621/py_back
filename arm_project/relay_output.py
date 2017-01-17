@@ -136,8 +136,13 @@ control_relay = {
 
 
 def bi_state_relay_output(key, value):
+    """ 两态继电器输出
+    根据 key 获取对应指令元组
+    根据 value 获取开关指令
+    """
     relay = control_relay.get("bi_state")
     str1 = relay.get(key)
+
     if value == "on":
         out_str = str1[1]
     else:
@@ -146,8 +151,8 @@ def bi_state_relay_output(key, value):
     print '%s relay off ' % key
 
 
-
 def tri_state_relay_output(key, value):
+    """ 三态继电器指令输出 """
     relay = control_relay.get("tri_state")
     str1 = relay.get(key)
     if value == "on":

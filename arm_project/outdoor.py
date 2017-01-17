@@ -56,6 +56,7 @@ class Outdoor(object):
         else:
             temp = u"北风"
         self.set_wind_direction(temp)
+
     def get_db_wind_direction(self, key):
         return self.wind_direction_data.get(key)
 
@@ -80,34 +81,26 @@ class Outdoor(object):
     def get_update_time(self):
         return self.__update_time
 
-
     def get_temperature(self):
         return self.__temperature
-
 
     def get_humidity(self):
         return self.__humidity
 
-
     def get_radiation(self):
         return self.__radiation
-
 
     def get_co_2(self):
         return self.__co2
 
-
     def get_wind_direction(self):
         return self.__wind_direction
-
 
     def get_wind_speed(self):
         return self.__wind_speed
 
-
     def get_rain(self):
         return self.__rain
-
 
     def get_atmosphere(self):
         return self.__atmosphere
@@ -115,38 +108,29 @@ class Outdoor(object):
     def set_update_time(self, value):
         self.__update_time = value
 
-
     def set_temperature(self, value):
         self.__temperature = value
-
 
     def set_humidity(self, value):
         self.__humidity = value
 
-
     def set_radiation(self, value):
         self.__radiation = value
-
 
     def set_co_2(self, value):
         self.__co2 = value
 
-
     def set_wind_direction(self, value):
         self.__wind_direction = value
-
 
     def set_wind_speed(self, value):
         self.__wind_speed = value
 
-
     def set_rain(self, value):
         self.__rain = value
 
-
     def set_atmosphere(self, value):
         self.__atmosphere = value
-
 
     def set_outdoor(self, update_time1, temperature1, humidity1, radiation1, co21, wind_direction1, wind_speed1,
                     rain1, atmosphere1):
@@ -159,7 +143,6 @@ class Outdoor(object):
         self.__wind_speed = wind_speed1
         self.__rain = rain1
         self.__atmosphere = atmosphere1
-
 
     def build_json(self):
         return '''

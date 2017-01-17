@@ -20,18 +20,27 @@ from scheduler import Scheduler
 r = requests
 app = Flask(__name__)
 
+# 测试节点数据
 node0 = Indoor('1')
+
+# 室外环境数据
 outdoor = Outdoor()
 c = Control()
+
+# 参数数据
 p = Parameter()
 
 control_method = "computer"
 isConnect = False
+
+# 服务器url
 url = "http://121.43.106.119:8090/"
 start_time = get_current_time()
-indoor_node_data=''''''
+indoor_node_data = ''''''
+
 
 def server_connect():
+    """ 测试与服务器连接状况 """
     global isConnect, start_time
     try:
         data = urllib.urlopen(url).read()
@@ -45,6 +54,7 @@ def server_connect():
 
 
 def post_server_data():
+    """ 把记录在数据库的室内、室外环境数据发送到服务器端，若成功则删除本地数据库内记录 """
     global isConnect
     if isConnect:
         try:
@@ -78,14 +88,15 @@ def get_web_command():
 
 
 def update_indoor():
-    global start_time, indoor_node_data, ind
-    indoor_node_data= sensor.get_sensor_data()
-    if isConnect == True:
+    """ 从无线传感器获取温室内各个节点测量的环境数据 """
+    global start_time, indoor_node_data
+    indoor_node_data = sensor.get_sensor_data()
+    if isConnect:
         start_time = get_current_time()
-    obj=json.loads(indoor_node_data)
+    obj = json.loads(indoor_node_data)
     for key in obj.keys():
         node0.set_name(key)
-        value=obj.get(key)
+        value = obj.get(key)
         node0.set_update_time(value['update_time'])
         node0.set_co2(value['co2'])
         node0.set_temperature(value['temperature'])
@@ -95,6 +106,7 @@ def update_indoor():
 
 
 def update_outdoor():
+    """ 获取温室外环境数据，从服务器端获得 """
     try:
         outdoor.get_weather_from_api()
         outdoor.set_wind_direction_number()
@@ -106,11 +118,13 @@ def update_outdoor():
 
 
 def update_control():
+    """ 传感器状态更新 """
     # save_db_control(c)
     print 'control updated', get_current_time()
 
 
 def auto_running():
+    """ 温室自控算法 """
     global node0, c, outdoor, p
     auto_run_main(node0, outdoor, c, p)
 
@@ -131,11 +145,13 @@ def response_outdoor():
 
 @app.route('/control', methods=['GET', 'POST'])
 def control():
+    """ 处理服务器及其他设备对被控对象（继电器）的手动控制请求 """
+    global r
     if request.method == 'POST':
         try:
             data = request.data
             c.set_update_time(get_current_time())
-            r=c.handle_post(data)
+            r = c.handle_post(data)
             save_db_control(c)
             return r
         except:
@@ -146,6 +162,7 @@ def control():
 
 @app.route('/auto', methods=['GET', 'POST'])
 def auto_run():
+    """ 处理请求：启动、关闭自动控制算法控制温室 """
     global control_method
     if request.method == 'POST':
         data = request.data
@@ -169,12 +186,12 @@ def auto_run():
 
 @app.route('/stationState')
 def stationState():
-    global  isConnect
+    global isConnect
     if request.method == 'GET':
-        if isConnect == True:
+        if isConnect:
             return '''系统正常运行'''
         else:
-            return  '''基站运行正常，服务器连接失败，请检查网络'''
+            return '''基站运行正常，服务器连接失败，请检查网络'''
 
 
 @app.route('/computer')
@@ -185,6 +202,7 @@ def computer_control():
 
 @app.route('/parameter', methods=['GET', 'POST'])
 def parameter():
+    """ 处理服务器及其他设备对参数读取、修改的请求 """
     global p
     if request.method == 'GET':
         return p.build_to_json()

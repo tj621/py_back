@@ -3,7 +3,9 @@ from threading import Timer
 
 
 class Scheduler(object):
+    """ 定时器类 """
     def __init__(self, sleep_time, function):
+        # 秒
         self.sleep_time = sleep_time
         self.function = function
         self._t = None
@@ -26,8 +28,7 @@ class Scheduler(object):
             del self._t
 
 
-            # test
-
+# test
 # def update_indoor():
 # print 'indoor updated'
 #

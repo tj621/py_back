@@ -3,7 +3,7 @@ from currenttime import get_current_time
 
 
 class Indoor:
-    '''the object of indoor climate'''
+    """the object of indoor climate"""
 
     def __init__(self, name):
         self.__name = name
@@ -67,7 +67,7 @@ class Indoor:
                   self.get_co2(), self.__update_time)
 
     def save_temp_row(self):
-        row=[]
+        row = []
         row.append(self.__name)
         row.append(self.__temperature)
         row.append(self.__radiation)

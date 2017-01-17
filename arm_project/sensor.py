@@ -1,7 +1,7 @@
-#coding=utf-8
+# coding=utf-8
+import urllib
 __author__ = 'Zxh'
 
-import urllib
 
 def get_sensor_data():
     try:
