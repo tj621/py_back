@@ -3,12 +3,13 @@ Created on 2016/06/20
 
 @author: Zxh
 '''
-from indoor import Indoor
-from outdoor import Outdoor
-from control import Control
-from parameter import Parameter
 from autorun import auto_run_main
 from currenttime import get_time
+from indoor import Indoor
+from outdoor import Outdoor
+from parameter import Parameter
+
+from arm_project.control import Control
 
 node0 = Indoor('node0')
 o = Outdoor()

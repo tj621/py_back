@@ -2,8 +2,7 @@
 
 @author: Zxh
 '''
-from parameter import Parameter
-import json
+from arm_project.parameter import Parameter
 
 p = Parameter()
 

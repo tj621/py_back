@@ -2,10 +2,11 @@
 
 @author: Zxh
 '''
+from time import sleep
+
 from currenttime import get_current_hour, get_current_month, get_time, get_current_time
 
-from relay_output import bi_state_relay_output, tri_state_relay_output
-from time import sleep
+from arm_project.relay_output import bi_state_relay_output, tri_state_relay_output
 
 
 def auto_run_main(Indoor, Outdoor, Control, Parameter):

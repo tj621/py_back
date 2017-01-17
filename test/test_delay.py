@@ -2,13 +2,15 @@
 
 @author: Zxh
 '''
-from scheduler import Scheduler
+from time import sleep
+
+from autorun import auto_run_main
 from indoor import Indoor
 from outdoor import Outdoor
 from parameter import Parameter
-from control import Control
-from autorun import auto_run_main
-from time import sleep
+from scheduler import Scheduler
+
+from arm_project.control import Control
 
 onode0 = Indoor('node0')
 outdoor = Outdoor()

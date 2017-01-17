@@ -1,7 +1,7 @@
 '''
 @author: Zxh
 '''
-from scheduler import Scheduler
+from arm_project.scheduler import Scheduler
 
 b = 4;
 c = 4;
